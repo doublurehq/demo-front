@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    uses: amine7536/akpe-workflows/.github/workflows/build-and-push.yml@main
+    with:
+      image_name: ${{ github.repository }}
