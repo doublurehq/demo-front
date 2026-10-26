@@ -9,19 +9,9 @@ on:
 permissions:
   contents: read
   packages: write
-  pull-requests: write
 
 jobs:
   build-and-push:
     uses: amine7536/akpe-workflows/.github/workflows/build-and-push.yml@main
     with:
       image_name: ${{ github.repository }}
-
-  deploy-preview:
-    if: github.event_name == 'pull_request'
-    needs: build-and-push
-    uses: amine7536/akpe-workflows/.github/workflows/deploy-preview.yml@main
-    with:
-      service_name: front
-    secrets:
-      GITOPS_PAT: ${{ secrets.GITOPS_PAT }}
