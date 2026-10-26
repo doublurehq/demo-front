@@ -16,7 +16,6 @@ jobs:
     uses: amine7536/akpe-workflows/.github/workflows/build-and-push.yml@main
     with:
       image_name: ${{ github.repository }}
-    secrets: inherit
 
   deploy-preview:
     if: github.event_name == 'pull_request'
@@ -24,4 +23,5 @@ jobs:
     uses: amine7536/akpe-workflows/.github/workflows/deploy-preview.yml@main
     with:
       service_name: front
-    secrets: inherit
+    secrets:
+      GITOPS_PAT: ${{ secrets.GITOPS_PAT }}
