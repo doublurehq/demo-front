@@ -46,3 +46,19 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy:
+    needs: build-and-push
+    if: github.event_name == 'pull_request' && vars.DOUBLURE_URL != ''
+    runs-on: ubuntu-24.04
+    permissions: {}
+    env:
+      DOUBLURE_DEPLOY_TOKEN: ${{ secrets.DOUBLURE_DEPLOY_TOKEN }}
+    steps:
+      - name: Deploy preview
+        if: env.DOUBLURE_DEPLOY_TOKEN != ''
+        uses: doublurehq/doublure/actions/deploy@v0.6.0
+        with:
+          url: ${{ vars.DOUBLURE_URL }}
+          token: ${{ env.DOUBLURE_DEPLOY_TOKEN }}
+          service: front
